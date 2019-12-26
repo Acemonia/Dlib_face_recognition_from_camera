@@ -8,7 +8,7 @@
 
 import cv2
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(0,cv2.CAP_DSHOW)
 
 # cap.set(propId, value)
 # 设置视频参数: propId - 设置的视频参数, value - 设置的参数值

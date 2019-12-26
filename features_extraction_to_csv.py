@@ -77,21 +77,21 @@ def return_features_mean_personX(path_faces_personX):
 
     return features_mean_personX
 
+def features_extraction():
+    # 获取已录入的最后一个人脸序号 / get the num of latest person
+    person_list = os.listdir("data/data_faces_from_camera/")
+    person_num_list = []
+    for person in person_list:
+        person_num_list.append(int(person.split('_')[-1]))
+    person_cnt = max(person_num_list)
 
-# 获取已录入的最后一个人脸序号 / get the num of latest person
-person_list = os.listdir("data/data_faces_from_camera/")
-person_num_list = []
-for person in person_list:
-    person_num_list.append(int(person.split('_')[-1]))
-person_cnt = max(person_num_list)
-
-with open("data/features_all.csv", "w", newline="") as csvfile:
-    writer = csv.writer(csvfile)
-    for person in range(person_cnt):
-        # Get the mean/average features of face/personX, it will be a list with a length of 128D
-        print(path_images_from_camera + "person_"+str(person+1))
-        features_mean_personX = return_features_mean_personX(path_images_from_camera + "person_"+str(person+1))
-        writer.writerow(features_mean_personX)
-        print("特征均值 / The mean of features:", list(features_mean_personX))
-        print('\n')
-    print("所有录入人脸数据存入 / Save all the features of faces registered into: data/features_all.csv")
+    with open("data/features_all.csv", "w", newline="") as csvfile:
+        writer = csv.writer(csvfile)
+        for person in range(person_cnt):
+            # Get the mean/average features of face/personX, it will be a list with a length of 128D
+            print(path_images_from_camera + "person_"+str(person+1))
+            features_mean_personX = return_features_mean_personX(path_images_from_camera + "person_"+str(person+1))
+            writer.writerow(features_mean_personX)
+            print("特征均值 / The mean of features:", list(features_mean_personX))
+            print('\n')
+        print("所有录入人脸数据存入 / Save all the features of faces registered into: data/features_all.csv")
