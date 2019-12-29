@@ -6,25 +6,25 @@ Added Introduction
 
 #. 已完成部分
 
-    - 已完成部分
-        - 新的人脸数据集
-        - 先进的识别模型
-        - 做到视频识别
-        - 可获取到识别人脸信息并显示出来
-        - 可摄像头添加人脸
-        - 可打包成.exe(文件过大)
+- 已完成部分
+    - 新的人脸数据集
+    - 先进的识别模型
+    - 做到视频识别
+    - 可获取到识别人脸信息并显示出来
+    - 可摄像头添加人脸
+    - 可打包成.exe(文件过大)
 
-    - 将要做的
-        - 自定义命名摄入的人脸
-        - 从文件夹批量导入人脸图片
-        - 从应用端查看数据库中的人脸信息
-        - 其它改良
+- 将要做的
+    - 自定义命名摄入的人脸
+    - 从文件夹批量导入人脸图片
+    - 从应用端查看数据库中的人脸信息
+    - 其它改良
 
-    .. image:: introduction/main_figure_interface.png
-      :align: center
+.. image:: introduction/main_interface.png
+  :align: center
 
-    .. image:: introduction/main_interface.png
-      :align: center
+.. image:: introduction/main_figure_interface.png
+  :align: center
 
 Former Introduction
 *******************
