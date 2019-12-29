@@ -7,12 +7,15 @@
 
 # Created at 2018-05-11
 # Updated at 2019-04-09
+import time
 
-import dlib          # 人脸处理的库 Dlib
-import numpy as np   # 数据处理的库 numpy
-import cv2           # 图像处理的库 OpenCv
+import dlib  # 人脸处理的库 Dlib
+import numpy as np  # 数据处理的库 numpy
+import cv2  # 图像处理的库 OpenCv
 import pandas as pd  # 数据处理的库 Pandas
 import os
+import wx
+import main_interface
 
 # 人脸识别模型，提取128D的特征矢量
 # face recognition model, the object maps human faces into 128D vectors
@@ -27,6 +30,7 @@ def return_euclidean_distance(feature_1, feature_2):
     feature_2 = np.array(feature_2)
     dist = np.sqrt(np.sum(np.square(feature_1 - feature_2)))
     return dist
+
 
 def face_reco():
     # 1. Check 存放所有人脸特征的 csv
@@ -55,9 +59,13 @@ def face_reco():
         # 创建 cv2 摄像头对象
         cap = cv2.VideoCapture(0)
 
+        #用于显示人脸识别结果
+        resultList = []
+
         # 3. When the camera is open
         # while cap.isOpened():
-        while(1):
+        start = time.clock()
+        while (1):
 
             flag, img_rd = cap.read()
             img_gray = cv2.cvtColor(img_rd, cv2.COLOR_RGB2GRAY)
@@ -90,7 +98,7 @@ def face_reco():
                     # 5. 遍历捕获到的图像中所有的人脸
                     # 5. Traversal all the faces in the database
                     for k in range(len(faces)):
-                        print("##### camera person", k+1, "#####")
+                        print("##### camera person", k + 1, "#####")
                         # 让人名跟随在矩形框的下方
                         # 确定人名的位置坐标
                         # 先默认所有人不认识，是 unknown
@@ -98,7 +106,8 @@ def face_reco():
                         name_namelist.append("unknown")
 
                         # 每个捕获人脸的名字坐标 the positions of faces captured
-                        pos_namelist.append(tuple([faces[k].left(), int(faces[k].bottom() + (faces[k].bottom() - faces[k].top())/4)]))
+                        pos_namelist.append(
+                            tuple([faces[k].left(), int(faces[k].bottom() + (faces[k].bottom() - faces[k].top()) / 4)]))
 
                         # 对于某张人脸，遍历所有存储的人脸特征
                         # For every faces detected, compare the faces in the database
@@ -115,14 +124,18 @@ def face_reco():
                                 e_distance_list.append(999999999)
                         # Find the one with minimum e distance
                         similar_person_num = e_distance_list.index(min(e_distance_list))
-                        print("Minimum e distance with person", int(similar_person_num)+1)
+                        resultList.append(str(min(e_distance_list)))
+
+                        print("Minimum e distance with person", int(similar_person_num) + 1)
 
                         if min(e_distance_list) < 0.4:
                             ####### 在这里修改 person_1, person_2 ... 的名字 ########
                             # 可以在这里改称 Jack, Tom and others
                             # Here you can modify the names shown on the camera
-                            name_namelist[k] = "Person "+str(int(similar_person_num)+1)
-                            print("May be person "+str(int(similar_person_num)+1))
+                            name_namelist[k] = "Person " + str(int(similar_person_num) + 1)
+                            print("May be person " + str(int(similar_person_num) + 1))
+
+                            resultList.append("person_" + str(int(similar_person_num + 1)))
                         else:
                             print("Unknown person")
 
@@ -130,7 +143,8 @@ def face_reco():
                         # draw rectangle
                         for kk, d in enumerate(faces):
                             # 绘制矩形框
-                            cv2.rectangle(img_rd, tuple([d.left(), d.top()]), tuple([d.right(), d.bottom()]), (0, 255, 255), 2)
+                            cv2.rectangle(img_rd, tuple([d.left(), d.top()]), tuple([d.right(), d.bottom()]),
+                                          (0, 255, 255), 2)
                         print('\n')
 
                     # 6. 在人脸框下面写人脸名字
@@ -146,15 +160,33 @@ def face_reco():
 
             cv2.imshow("camera", img_rd)
 
+            print(name_namelist)
+
+            end = time.clock()
+            if name_namelist != [] and name_namelist != ['unknown'] and end - start > 5:
+                resultList.append(img_rd)
+                break
+            else:
+                resultList = []
+                # break
+            # 显示图片在panel上
+            # main_interface.Example._faceReco(main_interface.Example, pic)
+            # main_interface.bmp.SetBitmap(pic)
+            # main_interface.self.GridBagSizer.Fit(main_interface.self)
+
             # if cv2.getWindowProperty('camera', cv2.WND_PROP_AUTOSIZE) == -1:
             #     break
 
-
         cap.release()
         cv2.destroyAllWindows()
+        print(resultList)
+        return resultList
 
     else:
         print('##### Warning #####', '\n')
         print("'features_all.py' not found!")
-        print("Please run 'get_faces_from_camera.py' and 'features_extraction_to_csv.py' before 'face_reco_from_camera.py'", '\n')
+        print(
+            "Please run 'get_faces_from_camera.py' and 'features_extraction_to_csv.py' before 'face_reco_from_camera.py'",
+            '\n')
         print('##### Warning #####')
+        return False
