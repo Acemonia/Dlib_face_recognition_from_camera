@@ -50,9 +50,6 @@ Detect and recognize single/multi-faces from camera;
 
    同时识别多张已录入人脸 / multi-faces recognition at the same time:
 
-   .. image:: introduction/face_reco_two_people_in_database.png
-      :align: center
-
 ** 关于精度 / About accuracy:
 
 * When using a distance threshold of ``0.6``, the dlib model obtains an accuracy of ``99.38%`` on the standard LFW face recognition benchmark.
