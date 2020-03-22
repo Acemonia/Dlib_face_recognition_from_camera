@@ -68,14 +68,14 @@ def get_faces():
     # 3. Check people order: person_cnt
     # 如果有之前录入的人脸 / If the old folders exists
     # 在之前 person_x 的序号按照 person_x+1 开始录入 / Start from person_x+1
+    person_cnt = 0
     if os.listdir("data/data_faces_from_camera/"):
         # 获取已录入的最后一个人脸序号 / Get the num of latest person
-        person_list = os.listdir("data/data_faces_from_camera/")
-        person_num_list = []
-        for person in person_list:
-            person_num_list.append(int(person.split('_')[-1]))
-        person_cnt = max(person_num_list)
-
+        person_list = "data/data_faces_from_camera/"
+        for person in os.listdir(person_list):
+            sub_path = os.path.join(person_list, person)
+            if os.path.isdir(sub_path):
+                person_cnt = person_cnt + 1
     # 如果第一次存储或者没有之前录入的人脸, 按照 person_1 开始录入
     # Start from person_1
     else:
@@ -89,11 +89,12 @@ def get_faces():
 
     while cap.isOpened():
         flag, img_rd = cap.read()
+        img_rd = cv2.flip(img_rd, 1)  # 翻转 0:上下颠倒 大于0水平颠倒   小于180旋转
         # print(img_rd.shape)
         # It should be 480 height * 640 width in Windows and Ubuntu by default
         # Maybe 1280x720 in macOS
 
-        kk = cv2.waitKey(1)
+
 
         img_gray = cv2.cvtColor(img_rd, cv2.COLOR_RGB2GRAY)
 
@@ -102,6 +103,17 @@ def get_faces():
 
         # 待会要写的字体 / Font to write
         font = cv2.FONT_ITALIC
+
+        # 显示人脸数 / Show the numbers of faces detected
+        cv2.putText(img_rd, "Faces: " + str(len(faces)), (20, 100), font, 0.8, (0, 255, 0), 1, cv2.LINE_AA)
+
+        # 添加说明 / Add some statements
+        cv2.putText(img_rd, "Face Register", (20, 40), font, 1, (0, 0, 0), 1, cv2.LINE_AA)
+        cv2.putText(img_rd, "N: Create face folder", (20, 350), font, 0.8, (0, 0, 0), 1, cv2.LINE_AA)
+        cv2.putText(img_rd, "S: Save current face", (20, 400), font, 0.8, (0, 0, 0), 1, cv2.LINE_AA)
+        cv2.putText(img_rd, "Q: Quit", (20, 450), font, 0.8, (0, 0, 0), 1, cv2.LINE_AA)
+
+        kk = cv2.waitKey(1)
 
         # 4. 按下 'n' 新建存储人脸的文件夹 / press 'n' to create the folders for saving faces
         if kk == ord('n'):
@@ -167,23 +179,22 @@ def get_faces():
                         else:
                             print("请在按 'S' 之前先按 'N' 来建文件夹 / Please press 'N' before 'S'")
 
-        # 显示人脸数 / Show the numbers of faces detected
-        cv2.putText(img_rd, "Faces: " + str(len(faces)), (20, 100), font, 0.8, (0, 255, 0), 1, cv2.LINE_AA)
 
-        # 添加说明 / Add some statements
-        cv2.putText(img_rd, "Face Register", (20, 40), font, 1, (0, 0, 0), 1, cv2.LINE_AA)
-        cv2.putText(img_rd, "N: Create face folder", (20, 350), font, 0.8, (0, 0, 0), 1, cv2.LINE_AA)
-        cv2.putText(img_rd, "S: Save current face", (20, 400), font, 0.8, (0, 0, 0), 1, cv2.LINE_AA)
-        cv2.putText(img_rd, "Q: Quit", (20, 450), font, 0.8, (0, 0, 0), 1, cv2.LINE_AA)
+
+
+
+        cv2.startWindowThread()  # 加在这个位置
+        cv2.imshow("camera", img_rd)
+
+        if cv2.getWindowProperty("camera", cv2.WND_PROP_AUTOSIZE) < 1:
+            break
 
         # 6. 按下 'q' 键退出 / Press 'q' to exit
         if kk == ord('q'):
             break
-
         # 如果需要摄像头窗口大小可调 / Uncomment this line if you want the camera window is resizeable
         # cv2.namedWindow("camera", 0)
 
-        cv2.imshow("camera", img_rd)
 
     # 释放摄像头 / Release camera and destroy all windows
     cap.release()

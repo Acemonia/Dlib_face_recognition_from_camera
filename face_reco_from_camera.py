@@ -5,17 +5,15 @@
 # Blog:     http://www.cnblogs.com/AdaminXie
 # GitHub:   https://github.com/coneypo/Dlib_face_recognition_from_camera
 
+import os
 # Created at 2018-05-11
 # Updated at 2019-04-09
 import time
 
+import cv2  # 图像处理的库 OpenCv
 import dlib  # 人脸处理的库 Dlib
 import numpy as np  # 数据处理的库 numpy
-import cv2  # 图像处理的库 OpenCv
 import pandas as pd  # 数据处理的库 Pandas
-import os
-import wx
-import main_interface
 
 # 人脸识别模型，提取128D的特征矢量
 # face recognition model, the object maps human faces into 128D vectors
@@ -68,6 +66,7 @@ def face_reco():
         while (1):
 
             flag, img_rd = cap.read()
+            img_rd = cv2.flip(img_rd, 1)  # 翻转 0:上下颠倒 大于0水平颠倒   小于180旋转
             img_gray = cv2.cvtColor(img_rd, cv2.COLOR_RGB2GRAY)
             faces = detector(img_gray, 0)
 
@@ -80,12 +79,12 @@ def face_reco():
             name_namelist = []
 
             kk = cv2.waitKey(1)
-
             # 按下 q 键退出
             # press 'q' to exit
             if kk == ord('q'):
                 break
             else:
+
                 # 检测到人脸 when face detected
                 if len(faces) != 0:
                     # 4. 获取当前捕获到的图像的所有人脸的特征，存储到 features_cap_arr
@@ -128,20 +127,21 @@ def face_reco():
 
                         print("Minimum e distance with person", int(similar_person_num) + 1)
 
-                        if min(e_distance_list) < 0.4:
+                        if min(e_distance_list) < 0.42:
                             ####### 在这里修改 person_1, person_2 ... 的名字 ########
                             # 可以在这里改称 Jack, Tom and others
                             # Here you can modify the names shown on the camera
                             name_namelist[k] = "Person " + str(int(similar_person_num) + 1)
                             print("May be person " + str(int(similar_person_num) + 1))
 
-                            resultList.append("person_" + str(int(similar_person_num + 1)))
+                            # resultList.append("person_" + str(int(similar_person_num + 1)))
+                            resultList.append(int(similar_person_num + 1))
                         else:
                             print("Unknown person")
 
                         # 矩形框
                         # draw rectangle
-                        for kk, d in enumerate(faces):
+                        for k, d in enumerate(faces):
                             # 绘制矩形框
                             cv2.rectangle(img_rd, tuple([d.left(), d.top()]), tuple([d.right(), d.bottom()]),
                                           (0, 255, 255), 2)
@@ -158,12 +158,16 @@ def face_reco():
             cv2.putText(img_rd, "Face Recognition", (20, 40), font, 1, (0, 0, 0), 1, cv2.LINE_AA)
             cv2.putText(img_rd, "Faces: " + str(len(faces)), (20, 100), font, 1, (0, 0, 255), 1, cv2.LINE_AA)
 
+            cv2.startWindowThread()  # 加在这个位置
             cv2.imshow("camera", img_rd)
+
+            if cv2.getWindowProperty("camera", cv2.WND_PROP_AUTOSIZE) < 1:
+                break
 
             print(name_namelist)
 
             end = time.clock()
-            if name_namelist != [] and name_namelist != ['unknown'] and end - start > 5:
+            if name_namelist != [] and name_namelist != ['unknown'] and end - start > 3:
                 resultList.append(img_rd)
                 break
             else:
