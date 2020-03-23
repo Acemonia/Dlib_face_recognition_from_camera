@@ -4,21 +4,12 @@ Face recognition from camera with Dlib
 Added Introduction
 ******************
 
-#. 已完成部分
-
-- 已完成部分
-    - 新的人脸数据集
-    - 先进的识别模型
-    - 做到视频识别
-    - 可获取到识别人脸信息并显示出来
-    - 可摄像头添加人脸
-    - 可打包成.exe(文件过大)
-
-- 将要做的
-    - 自定义命名摄入的人脸
-    - 从文件夹批量导入人脸图片
-    - 从应用端查看数据库中的人脸信息
-    - 其它改良
+- 完成的功能
+    - 新的人脸数据集和识别模型
+    - 做到视频识别， 实时显示人脸信息
+    - 可摄像头添加人脸， 且可改名
+    - 可通过文件夹方式批量添加人脸
+    - GUI化， 基本无卡顿
 
 .. image:: introduction/main_interface.png
   :align: center
@@ -78,6 +69,8 @@ Steps
       pip3 install opencv-python
       pip3 install scikit-image
       pip3 install dlib
+      pip install wxPython-4.0.0a2.dev3038+953a2e5-cp27-cp27mu-linux_x86_64.whl
+
 
 #. 下载源码 / Download zip from website or via GitHub Desktop in windows, or git clone repo in Ubuntu
 
@@ -112,6 +105,7 @@ Repo 的 tree / 树状图:
 ::
 
     .
+    ├── main_interface.py               # Step0. Start First
     ├── get_faces_from_camera.py        # Step1. Faces register
     ├── features_extraction_to_csv.py   # Step2. Features extraction
     ├── face_reco_from_camera.py        # Step3. Faces recognition
@@ -130,13 +124,8 @@ Repo 的 tree / 树状图:
     │   │       └── img_face_2.jpg
     │   └── features_all.csv            # CSV to save all the features of known faces (will generate after step 2)
     ├── introduction                    # Some files for readme.rst
-    │   ├── Dlib_Face_recognition_by_coneypo.pptx
-    │   ├── face_reco_single_person_customize_name.png
-    │   ├── face_reco_single_person.png
-    │   ├── face_reco_two_people_in_database.png
-    │   ├── face_reco_two_people.png
-    │   ├── get_face_from_camera_out_of_range.png
-    │   ├── get_face_from_camera.png
+    │   ├── main_figure_interface.png
+    │   ├── main_interface.png
     │   └── overview.png
     ├── README.rst
     └── requirements.txt                # Some python packages needed
@@ -200,31 +189,3 @@ Python 源码介绍如下:
    * Compare the faces captured from camera with the faces you have registered which are saved in "features_all.csv"
    
    * 将捕获到的人脸数据和之前存的人脸数据进行对比计算欧式距离, 由此判断是否是同一个人;
-   
-
-More
-****
-
-Tips:
-
-#. 如果希望详细了解 dlib 的用法，请参考 Dlib 官方 Python api 的网站 / You can refer to this link for more information of how to use dlib: http://dlib.net/python/index.html
-
-#. Windows下建议不要把代码放到 ``C:\``, 可能会出现权限读取问题 / In windows, we will not recommend that running this repo in dir ``C:\``
-
-#. 代码最好不要有中文路径 / No chinese characters in your code directory
-
-#. 人脸录入的时候先建文件夹再保存图片, 先 ``N`` 再 ``S`` / Press ``N`` before ``S``
-
-#. 修改显示人脸姓名, 参考这个 patch 修改代码 / If you want to customize the names shown instead of "Person 1", "Person 2"..., please apply this patch: https://github.com/coneypo/Dlib_face_recognition_from_camera/commit/0351cc0f1a1c3a106102c0671dd19edd5866fa93
-
-可以访问我的博客获取本项目的更详细介绍，如有问题可以邮件联系我 /
-For more details, please refer to my blog (in chinese) or mail to me :
-
-* Blog: https://www.cnblogs.com/AdaminXie/p/9010298.html
-  
-* Mail: coneypo@foxmail.com ( Dlib 相关 repo 问题请联系 @foxmail 而不是 @intel )
-
-
-仅限于交流学习, 商业合作勿扰;
-
-Thanks for your support.
