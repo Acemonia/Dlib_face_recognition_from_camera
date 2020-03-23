@@ -1,14 +1,6 @@
 # 从人脸图像文件中提取人脸特征存入 CSV
 # Features extraction from images and save into features_all.csv
 
-# Author:   coneypo
-# Blog:     http://www.cnblogs.com/AdaminXie
-# GitHub:   https://github.com/coneypo/Dlib_face_recognition_from_camera
-# Mail:     coneypo@foxmail.com
-
-# Created at 2018-05-11
-# Updated at 2019-04-04
-
 import cv2
 import os
 import dlib

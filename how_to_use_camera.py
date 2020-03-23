@@ -1,11 +1,6 @@
 # OpenCv 调用摄像头
 # 默认调用笔记本摄像头
 
-# Author:   coneypo
-# Blog:     http://www.cnblogs.com/AdaminXie
-# GitHub:   https://github.com/coneypo/Dlib_face_recognition_from_camera
-# Mail:     coneypo@foxmail.com
-
 import cv2
 
 cap = cv2.VideoCapture(0,cv2.CAP_DSHOW)

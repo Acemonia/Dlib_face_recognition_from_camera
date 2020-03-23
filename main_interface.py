@@ -1,16 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""
-ZetCode wxPython tutorial
-
-In this example we create a new class layout
-with wx.GridBagSizer.
-
-author: Jan Bodnar
-website: www.zetcode.com
-last modified: April 2018
-"""
 import os
 
 import cv2
@@ -108,6 +98,7 @@ class Example(wx.Frame):
         self.Show()
 
     def faceReco(self, event):
+        self.SetSize(750, 500)
         _thread.start_new_thread(self._faceReco, (event,))
         print("face_reco_from_camera")
 

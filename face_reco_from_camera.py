@@ -1,13 +1,7 @@
 # 摄像头实时人脸识别
 # Real-time face recognition
 
-# Author:   coneypo
-# Blog:     http://www.cnblogs.com/AdaminXie
-# GitHub:   https://github.com/coneypo/Dlib_face_recognition_from_camera
-
 import os
-# Created at 2018-05-11
-# Updated at 2019-04-09
 import time
 
 import cv2  # 图像处理的库 OpenCv

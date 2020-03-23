@@ -1,14 +1,6 @@
 # 进行人脸录入 / face register
 # 录入多张人脸 / support multi-faces
 
-# Author:   coneypo
-# Blog:     http://www.cnblogs.com/AdaminXie
-# GitHub:   https://github.com/coneypo/Dlib_face_recognition_from_camera
-# Mail:     coneypo@foxmail.com
-
-# Created at 2018-05-11
-# Updated at 2019-11-19
-
 import dlib  # 人脸处理的库 Dlib
 import numpy as np  # 数据处理的库 Numpy
 import cv2  # 图像处理的库 OpenCv
