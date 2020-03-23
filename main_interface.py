@@ -23,14 +23,7 @@ import get_faces_from_camera
 import features_extraction_to_csv
 
 
-def featuresExtraction(event):
-    _thread.start_new_thread(features_extraction_to_csv.features_extraction(), (event,))
-    print("features_extraction_to_csv")
 
-
-def getFaces(event):
-    _thread.start_new_thread(get_faces_from_camera.get_faces(), (event,))
-    print("get_faces_from_camera")
 
 
 def resizeImage(self, image):
@@ -48,8 +41,15 @@ def resizeImage(self, image):
 def openFolder(self):
     os.system("start explorer %s" % '.\data\data_faces_from_camera')
 
-
 class Example(wx.Frame):
+    def featuresExtraction(self, event):
+        _thread.start_new_thread(features_extraction_to_csv.features_extraction, (event,))
+        print("features_extraction_to_csv")
+
+    def getFaces(self, event):
+        _thread.start_new_thread(get_faces_from_camera.get_faces, (event,))
+        print("get_faces_from_camera")
+
     def __init__(self, parent, id, title, size):
         wx.Frame.__init__(self, parent, id, title)
         self.SetSize(size)  # 设置对话框的大小
@@ -76,7 +76,7 @@ class Example(wx.Frame):
         self.name = wx.StaticText(panel, label="最相似人选")
         self.box2.Add(self.name, proportion=1, flag=wx.EXPAND | wx.ALL, border=5)
 
-        self.ratio = wx.StaticText(panel, label="相似百分比")
+        self.ratio = wx.StaticText(panel, label="欧氏距离")
         self.box2.Add(self.ratio, proportion=1, flag=wx.EXPAND | wx.ALL, border=5)
 
         self.box3 = wx.BoxSizer()  # 定义横向的box1
@@ -86,7 +86,7 @@ class Example(wx.Frame):
 
         button2 = wx.Button(panel, label='实时摄像头录入人脸')
         self.box3.Add(button2, proportion=1, flag=wx.EXPAND | wx.ALL, border=5)
-        button2.Bind(wx.EVT_BUTTON, getFaces)
+        button2.Bind(wx.EVT_BUTTON, self.getFaces)
 
         self.box4 = wx.BoxSizer()  # 定义横向的box1
         # button3 = wx.Button(panel, label='系统图片批量录入人脸')
@@ -96,7 +96,7 @@ class Example(wx.Frame):
 
         button4 = wx.Button(panel, label='分析数据库人脸')
         self.box4.Add(button4, proportion=1, flag=wx.EXPAND | wx.ALL, border=5)
-        button4.Bind(wx.EVT_BUTTON, featuresExtraction)
+        button4.Bind(wx.EVT_BUTTON, self.featuresExtraction)
 
         self.v_box = wx.BoxSizer(wx.VERTICAL)  # 定义一个纵向的v_box
         self.v_box.Add(self.box1, proportion=6, flag=wx.EXPAND | wx.ALL, border=5)  # 添加box1，比例为1
@@ -115,8 +115,6 @@ class Example(wx.Frame):
         resultList = face_reco_from_camera.face_reco()
         distance = resultList[0]
         name = resultList[1]
-        print("name")
-        print(name)
         cnt = 0
         for person in os.listdir("data/data_faces_from_camera/"):
             print(person)
@@ -127,9 +125,7 @@ class Example(wx.Frame):
                 break
         btm_rd = resultList[2]
         height, width = btm_rd.shape[:2]
-        print("height + width")
-        print(height)
-        print(width)
+
 
         # height = int(300 / width * height)
         # width = 300

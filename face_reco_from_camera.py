@@ -131,8 +131,17 @@ def face_reco():
                             ####### 在这里修改 person_1, person_2 ... 的名字 ########
                             # 可以在这里改称 Jack, Tom and others
                             # Here you can modify the names shown on the camera
-                            name_namelist[k] = "Person " + str(int(similar_person_num) + 1)
+                            # name_namelist[k] = "Person " + str(int(similar_person_num) + 1)
                             print("May be person " + str(int(similar_person_num) + 1))
+                            cnt = 0
+                            # name_namelist[k] = person.
+                            for person in os.listdir("data/data_faces_from_camera/"):
+                                print(person)
+                                cnt = cnt + 1
+                                # sub_path = os.path.join("data/data_faces_from_camera/", person)
+                                if cnt == int(similar_person_num) + 1:
+                                    name_namelist[k] = person
+                                    break
 
                             # resultList.append("person_" + str(int(similar_person_num + 1)))
                             resultList.append(int(similar_person_num + 1))
