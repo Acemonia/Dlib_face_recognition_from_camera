@@ -1,4 +1,6 @@
-pandas
+opencv-python==4.1.2.30
+wxpython==4.0.4
+pandas==0.25.3
 dlib==19.17.0
 numpy==1.15.1
 scikit-image==0.14.0
