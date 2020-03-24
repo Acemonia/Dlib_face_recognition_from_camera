@@ -3,6 +3,7 @@ Face recognition from camera with Dlib
 
 Added Introduction
 ******************
+利用 Python 开发，借助 Dlib 库捕获摄像头中的人脸，提取人脸特征，通过计算特征值之间的欧氏距离，来和预存的人脸特征进行对比，判断是否匹配，达到人脸识别的目的；
 
 - 完成的功能
     - 新的人脸数据集和识别模型
