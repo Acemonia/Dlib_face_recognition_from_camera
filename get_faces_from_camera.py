@@ -81,7 +81,7 @@ def get_faces(self):
     # 之后用来检查是否先按 'n' 再按 's' / The flag to check if press 'n' before 's'
     press_n_flag = 0
 
-    while(1):
+    while cap.isOpened():
         flag, img_rd = cap.read()
         img_rd = cv2.flip(img_rd, 1)  # 翻转 0:上下颠倒 大于0水平颠倒   小于180旋转
         # print(img_rd.shape)

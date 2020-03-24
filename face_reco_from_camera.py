@@ -57,7 +57,7 @@ def face_reco():
         # 3. When the camera is open
         # while cap.isOpened():
         start = time.clock()
-        while (1):
+        while cap.isOpened():
 
             flag, img_rd = cap.read()
             img_rd = cv2.flip(img_rd, 1)  # 翻转 0:上下颠倒 大于0水平颠倒   小于180旋转
