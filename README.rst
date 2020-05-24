@@ -128,7 +128,7 @@ Repo 的 tree / 树状图:
     │   ├── main_figure_interface.png
     │   ├── main_interface.png
     │   └── overview.png
-    ├── README.rst
+    ├── README.md
     └── requirements.txt                # Some python packages needed
 
 用到的 Dlib 相关模型函数:
